@@ -1,0 +1,32 @@
+exporters:
+  debug:
+    verbosity: detailed
+  otlphttp:
+    endpoint: http://localhost:4318
+    sending_queue:
+      enabled: true
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+connectors:
+  spanmetrics:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, spanmetrics]
+
+    metrics:
+      receivers: [otlp, spanmetrics]
+      exporters: [debug]
+
+    logs:
+      receivers: [otlp]
+      exporters: [debug]
