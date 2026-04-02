@@ -1,23 +1,29 @@
 {
     "name": "default",
-    // "image": "mcr.microsoft.com/devcontainers/python:dev-3.13-bullseye",
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    // "image": "mcr.microsoft.com/devcontainers/javascript-node:4.0-20-bullseye",
     "features": {
-      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-      "ghcr.io/devcontainers/features/java:1": {},
-      // "ghcr.io/devcontainers/features/go:1": {},
-      "ghcr.io/mpriscella/features/kind:1": {},
+      // "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/devcontainers/features/java:1": {
+        "version": "17",
+        "installGradle": "true"
+      },
+      // "ghcr.io/devcontainers-extra/features/gradle-sdkman:2": {
+      //   "version": "8",
+      //   // "jdkVersion": "20.0"
+      // },
+      // "ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2": {},
+      // "ghcr.io/mpriscella/features/kind:1": {},
       // "ghcr.io/devcontainers-extra/features/kubectl-asdf:2": {},
-      "ghcr.io/dhoeric/features/k9s:1": {},
+      // "ghcr.io/dhoeric/features/k9s:1": {},
     },
     "overrideFeatureInstallOrder": [
-        "ghcr.io/devcontainers/features/docker-in-docker",
+        // "ghcr.io/devcontainers/features/docker-in-docker",
         "ghcr.io/devcontainers/features/java",
-        // "ghcr.io/devcontainers/features/go",
-        "ghcr.io/mpriscella/features/kind",
+        // "ghcr.io/devcontainers-extra/features/gradle-sdkman",
+        // "ghcr.io/meaningful-ooo/devcontainer-features/homebrew",
+        // "ghcr.io/mpriscella/features/kind",
         // "ghcr.io/devcontainers-extra/features/kubectl-asdf",
-        "ghcr.io/dhoeric/features/k9s",
+        // "ghcr.io/dhoeric/features/k9s",
     ],
     "hostRequirements": {
       "cpus": 5,
