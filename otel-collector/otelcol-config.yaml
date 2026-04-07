@@ -2,7 +2,7 @@ exporters:
   debug:
     verbosity: detailed
 
-  otlphttp:
+  otlphttp/otel-desktop-viewer:
     endpoint: http://otel-desktop-viewer:4318
 
   # otlphttp:
@@ -25,7 +25,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug, spanmetrics, otlphttp]
+      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer]
 
     metrics:
       receivers: [otlp, spanmetrics]
