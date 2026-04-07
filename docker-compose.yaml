@@ -20,16 +20,17 @@ services:
     networks:
       - otel-network
 
-
-  # otel-tui:
-  #   image: ymtdzzz/otel-tui:latest
-  #   container_name: otel-tui
-  #   stdin_open: true
-  #   tty: true
-  #   # Override entrypoint if you want use options
-  #   entrypoint: ["/otel-tui"]
-  #   networks:
-  #     - otel-network
+  otel-tui:
+    image: ymtdzzz/otel-tui:latest
+    container_name: otel-tui
+    stdin_open: true
+    tty: true
+    # Override entrypoint if you want use options
+    entrypoint: ["/otel-tui"]
+    ports:
+      - "4518:4318"
+    networks:
+      - otel-network
 
 networks:
   otel-network:

@@ -5,10 +5,10 @@ exporters:
   otlphttp/otel-desktop-viewer:
     endpoint: http://otel-desktop-viewer:4318
 
-  # otlphttp:
-  #   endpoint: http://localhost:4318
-  #   sending_queue:
-  #     enabled: true
+  otlphttp/otel-tui:
+    endpoint: http://otel-tui:4318
+    sending_queue:
+      enabled: true
 
 receivers:
   otlp:
@@ -25,12 +25,12 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer]
+      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui]
 
     metrics:
       receivers: [otlp, spanmetrics]
-      exporters: [debug]
+      exporters: [debug, otlphttp/otel-tui]
 
     logs:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [debug, otlphttp/otel-tui]
