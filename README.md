@@ -8,7 +8,7 @@ Additional reference at [opentelemetry.io getting started guide for Java](https:
 
 ## Quickstart
 
-1- Build the project
+1- Build the Java project
 
 Open up a new terminal window and run:
 
@@ -21,19 +21,29 @@ Open up a new terminal window and run:
 Open up a new terminal window and run:
 
 ```bash
-./scripts/01-run-otel-collector.sh
+docker compose up otel-collector
 ```
 
 3- Run the Java example
 
-Open up a new terminal window and run:
+Start up the Java server in a new terminal window:
 
 ```bash
 ./scripts/02-run-java-server.sh
 ```
 
-In a new terminal window, run:
+Call the `/rolldice` endpont in a new terminal window:
 
 ```bash
 ./scripts/03-rolldice.sh
 ```
+
+4- Run the OTel desktop viewer
+
+Start up the OTel Desktop viewer process in a new terminal window:
+
+```bash
+docker compose up otel-desktop-viewer
+```
+
+The app will be available at `http://localhost:8000`. If you're running this in a dev container, you may need to manually forward port `8000` inside the container, if it's not automatically done for you.

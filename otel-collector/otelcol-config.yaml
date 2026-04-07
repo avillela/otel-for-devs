@@ -1,10 +1,14 @@
 exporters:
   debug:
     verbosity: detailed
+
   otlphttp:
-    endpoint: http://localhost:4318
-    sending_queue:
-      enabled: true
+    endpoint: http://otel-desktop-viewer:4318
+
+  # otlphttp:
+  #   endpoint: http://localhost:4318
+  #   sending_queue:
+  #     enabled: true
 
 receivers:
   otlp:
@@ -21,7 +25,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug, spanmetrics]
+      exporters: [debug, spanmetrics, otlphttp]
 
     metrics:
       receivers: [otlp, spanmetrics]
