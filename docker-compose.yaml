@@ -1,0 +1,36 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:$OTEL_COLLECTOR_VERSION
+    container_name: otelcol
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+    volumes:
+      - ./otel-collector/otelcol-config.yaml:/etc/otelcol-config.yaml
+    command: ["--config=/etc/otelcol-config.yaml"]
+    networks:
+      - otel-network
+
+  otel-desktop-viewer:
+    image: ghcr.io/ctrlspice/otel-desktop-viewer:$OTEL_DESKTOP_VIEWER_VERSION
+    container_name: otel-desktop-viewer
+    ports:
+      - "8000:8000"
+      - "4418:4318"
+    networks:
+      - otel-network
+
+
+  # otel-tui:
+  #   image: ymtdzzz/otel-tui:latest
+  #   container_name: otel-tui
+  #   stdin_open: true
+  #   tty: true
+  #   # Override entrypoint if you want use options
+  #   entrypoint: ["/otel-tui"]
+  #   networks:
+  #     - otel-network
+
+networks:
+  otel-network:
+    driver: bridge

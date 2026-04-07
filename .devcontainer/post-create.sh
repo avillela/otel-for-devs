@@ -19,3 +19,5 @@ curl -L -O https://github.com/open-telemetry/opentelemetry-java-instrumentation/
 
 ./install-homebrew.sh
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && sudo /home/linuxbrew/.linuxbrew/bin/brew install ymtdzzz/tap/otel-tui
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && sudo /home/linuxbrew/.linuxbrew/bin/brew install --cask ctrlspice/tap/otel-desktop-viewer
