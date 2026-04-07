@@ -1,0 +1,5 @@
+.gradle
+.DS_STORE
+build
+gradle
+*.jar
