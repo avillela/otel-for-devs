@@ -11,10 +11,9 @@ Create a new Java client program for the `java-simple` example that calls the `/
 ## Requirements
 
 ### Client Functionality
-- Calls the endpoint `https://localhost:8080/rolldice` repeatedly
+- Calls the endpoint `http://localhost:8080/rolldice` repeatedly
 - Makes requests every 5 seconds (configurable interval)
 - Logs all requests and responses using SLF4J
-- Handles self-signed certificates (development environment)
 - Runs in an infinite loop until interrupted
 - Mirrors the behavior of `scripts/03-rolldice.sh`
 
@@ -25,21 +24,22 @@ Create a new Java client program for the `java-simple` example that calls the `/
 - **Package**: `otel`
 - **Main class**: `RolldiceClient`
 - **HTTP Client**: Use Java 11+ `java.net.http.HttpClient`
-- **SSL Handling**: Implement custom SSL context to accept self-signed certificates
 - **Logging**: Use SLF4J with timestamped log messages
 - **Configuration**:
-  - URL: `https://localhost:8080/rolldice`
+  - URL: `http://localhost:8080/rolldice`
   - Sleep interval: 5000ms between requests
   - Log level: INFO for requests/responses, ERROR for failures
 
 #### Build Configuration
 - Update `java-simple/build.gradle.kts`
-- Add a Gradle task `runClient` of type `JavaExec`
+- Add a custom Gradle task `clientJar` of type `Jar` to build a fat JAR
 - Task should:
-  - Specify `otel.RolldiceClient` as mainClass
-  - Use the main sourceset runtime classpath
-  - Group: "application"
-  - Description: "Run the Rolldice Client"
+  - Set `archiveBaseName` to `"java-simple-client"`
+  - Set `Main-Class` manifest attribute to `otel.RolldiceClient`
+  - Include all dependencies from runtime classpath via `zipTree()`
+  - **Important**: Set `duplicatesStrategy = DuplicatesStrategy.EXCLUDE` to handle duplicate files in dependencies
+- Make both `tasks.assemble` and `tasks.build` depend on the `clientJar` task
+- Ensure `./gradlew clean assemble` builds both the server JAR and client JAR
 
 #### Startup Script
 - **File**: `scripts/04-run-java-client.sh`
@@ -47,7 +47,8 @@ Create a new Java client program for the `java-simple` example that calls the `/
 - **Functionality**: 
   - Set up OpenTelemetry environment variables (same as server startup)
   - Enable OTLP exporters for traces, metrics, and logs
-  - Run `./gradlew runClient` from the java-simple directory
+  - Build the client JAR if not already built
+  - Run the client JAR with `java -jar build/libs/java-simple-client.jar`
 - **Export Variables**:
   - `JAVA_TOOL_OPTIONS` with javaagent
   - `OTEL_TRACES_EXPORTER=console,otlp`
@@ -63,19 +64,26 @@ Create a new Java client program for the `java-simple` example that calls the `/
    - Compiles without errors
    - Includes proper documentation/comments
    - Handles exceptions gracefully
+   - Uses plain HTTP (no SSL handling)
 
 2. **build.gradle.kts** - Updated build file
-   - New `runClient` task added
-   - Project continues to build successfully
+   - New `clientJar` task added to build a fat JAR
+   - Includes `duplicatesStrategy = DuplicatesStrategy.EXCLUDE` to prevent build failures
+   - Both `tasks.assemble` and `tasks.build` depend on `clientJar`
+   - Project builds successfully with `./gradlew clean assemble`
 
 3. **04-run-java-client.sh** - Startup script
    - Executable permissions set
    - Proper OpenTelemetry configuration
+   - Builds client JAR if needed
+   - Runs the JAR with `java -jar`
    - Clear console output
 
 ### Testing
 
 Verify the implementation by:
-1. Building the project: `./gradlew build`
+1. Building the project: `./gradlew clean assemble` - produces both `java-simple.jar` and `java-simple-client.jar`
 2. Confirming no compilation errors
-3. Script is executable and can be invoked
+3. Verifying both JAR files exist in `build/libs/`
+4. Script is executable and can be invoked
+5. Client connects to `http://localhost:8080/rolldice` (HTTP, not HTTPS)
