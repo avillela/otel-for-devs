@@ -10,6 +10,8 @@ Additional reference at [opentelemetry.io getting started guide for Java](https:
 
 1- Build the Java project
 
+Do this the first time you run the project, or after any code changes.
+
 Open up a new terminal window and run:
 
 ```bash
@@ -35,7 +37,7 @@ Start up the Java server in a new terminal window:
 Call the `/rolldice` endpont in a new terminal window:
 
 ```bash
-./scripts/03-rolldice.sh
+./scripts/04-run-java-client.sh
 ```
 
 4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer/tree/main)

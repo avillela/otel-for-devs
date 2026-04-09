@@ -4,6 +4,8 @@
 ### Build the app locally
 ### -----------------------
 
+cd java-simple
+
 # Build script for java-simple project
 # Sets up Gradle 8.5 wrapper and assembles the project
 
@@ -16,3 +18,5 @@ echo "Building project with Gradle assemble..."
 ./gradlew clean assemble
 
 echo "Build complete!"
+
+cd ..

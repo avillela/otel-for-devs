@@ -37,3 +37,32 @@ tasks.test {
 springBoot {
   mainClass.set("otel.DiceApplication")
 }
+
+// Task to build a fat JAR for the Rolldice Client
+tasks.register<Jar>("clientJar") {
+  archiveBaseName.set("java-simple-client")
+  archiveVersion.set("")
+  archiveClassifier.set("")
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  
+  manifest {
+    attributes["Main-Class"] = "otel.RolldiceClient"
+    attributes["Implementation-Title"] = "Rolldice Client"
+    attributes["Implementation-Version"] = project.version
+  }
+  
+  from(sourceSets.main.get().output)
+  
+  dependsOn(configurations.runtimeClasspath)
+  from({
+    configurations.runtimeClasspath.get().filter { it.isFile }.map { zipTree(it) }
+  })
+}
+
+tasks.assemble {
+  dependsOn("clientJar")
+}
+
+tasks.build {
+  dependsOn("clientJar")
+}
