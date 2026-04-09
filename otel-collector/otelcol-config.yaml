@@ -10,6 +10,15 @@ exporters:
     sending_queue:
       enabled: true
 
+  otlp/otel-front:
+    endpoint: otel-front:4317
+    tls:
+      insecure: true
+    compression: none
+    sending_queue:
+      enabled: true
+
+
 receivers:
   otlp:
     protocols:
@@ -25,12 +34,12 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui]
+      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
 
     metrics:
       receivers: [otlp, spanmetrics]
-      exporters: [debug, otlphttp/otel-tui]
+      exporters: [debug, otlphttp/otel-tui, otlp/otel-front]
 
     logs:
       receivers: [otlp]
-      exporters: [debug, otlphttp/otel-tui]
+      exporters: [debug, otlphttp/otel-tui, otlp/otel-front]

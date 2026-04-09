@@ -32,6 +32,16 @@ services:
     networks:
       - otel-network
 
+  otel-front:
+    image: ghcr.io/mesaglio/otel-front:latest
+    container_name: otel-front
+    ports:
+      - "8001:8000"
+      - "4618:4318"
+      - "4617:4317"
+    networks:
+      - otel-network
+
 networks:
   otel-network:
     driver: bridge

@@ -4,6 +4,23 @@
 ### Start the app
 ### -----------------------
 
+# Load environment variables from .env file (default to .env if not provided)
+ENV_FILE="${1:-.env}"
+
+if [ ! -f "$ENV_FILE" ]; then
+  echo "Error: Environment file '$ENV_FILE' not found"
+  exit 1
+fi
+
+set -a
+source "$ENV_FILE"
+set +a
+
+if [ -z "$JAVA_FOLDER" ]; then
+  echo "Error: JAVA_FOLDER not defined in $ENV_FILE"
+  exit 1
+fi
+
 # Reference: https://opentelemetry.io/docs/languages/java/configuration/#properties-exporters
 
 export JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" \
@@ -13,5 +30,4 @@ export JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" \
   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
   OTEL_METRIC_EXPORT_INTERVAL=15000
 
-pwd
-java -jar ./java-simple/build/libs/java-simple.jar
+java -jar "./$JAVA_FOLDER/build/libs/${JAVA_FOLDER}.jar"

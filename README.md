@@ -8,12 +8,22 @@ Additional reference at [opentelemetry.io getting started guide for Java](https:
 
 ## Quickstart
 
+0- Edit `.env` file
+
+If you'd like to run the auto-instrumented version of this code, set `JAVA_FOLDER=java-simple`.
+
+If you want to run the auto-instrumented and manually instrumented version of this code, set `JAVA_FOLDER=java-simple-instrumented`.
+
+If you are running this example on an AMD64 machine, set `OTEL_DESKTOP_VIEWER_VERSION=latest-amd64`. Otherwise, leave as-is.
+
 1- Build the Java project
+
+Do this the first time you run the project, or after any code changes.
 
 Open up a new terminal window and run:
 
 ```bash
-./scripts/00-build-java.sh
+./scripts/00-build-java.sh .env
 ```
 
 2- Run the OTel Collector
@@ -29,16 +39,16 @@ docker compose up otel-collector
 Start up the Java server in a new terminal window:
 
 ```bash
-./scripts/02-run-java-server.sh
+./scripts/01-run-java-server.sh .env
 ```
 
 Call the `/rolldice` endpont in a new terminal window:
 
 ```bash
-./scripts/03-rolldice.sh
+./scripts/02-run-java-client.sh .env
 ```
 
-4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer/tree/main)
+4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer)
 
 Start up the OTel Desktop Viewer container in a new terminal window:
 
@@ -70,12 +80,44 @@ docker compose attach otel-tui
 
 Unlike the OTel Desktop Viewer, `otel-tui` supports traces:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-traces.png)
+![otel-tui Traces Screenshot](./images/otel-tui-traces.png)
 
 logs:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-logs.png)
+![otel-tui Logs Screenshot](./images/otel-tui-logs.png)
+
+metrics:
+
+![otel-tui Metrics Screenshot](./images/otel-tui-metrics.png)
+
+and application topology:
+
+![otel-tui Topology Screenshot](./images/otel-tui-topology.png)
+
+
+6- Run [OTel Front](https://github.com/mesaglio/otel-front)
+
+Start up the `otel-front` container in a new terminal window, in daemon mode:
+
+```bash
+docker compose up otel-front
+```
+
+The app will be available at `http://localhost:8001`. If you're running this in a dev container, you may need to manually forward port `8001` inside the container, if it's not automatically done for you.
+
+Just like with `otel-tui`, OTel Front also supports traces:
+
+![OTel Front Traces Screenshot](./images/otel-front-traces.png)
+
+logs:
+
+![OTel Front Logs Screenshot](./images/otel-front-logs.png)
 
 and metrics:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-metrics.png)
+![OTel Front Metrics Screenshot](./images/otel-front-metrics.png)
+
+It also has a nice little overview dashboard:
+
+![OTel Front Dashboard Screenshot](./images/otel-front-dashboard.png)
+

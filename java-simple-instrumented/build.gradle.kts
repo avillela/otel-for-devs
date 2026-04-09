@@ -40,7 +40,7 @@ springBoot {
 
 // Task to build a fat JAR for the Rolldice Client
 tasks.register<Jar>("clientJar") {
-  archiveBaseName.set("java-simple-client")
+  archiveBaseName.set("java-simple-instrumented-client")
   archiveVersion.set("")
   archiveClassifier.set("")
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
