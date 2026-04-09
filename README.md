@@ -40,7 +40,7 @@ Call the `/rolldice` endpont in a new terminal window:
 ./scripts/04-run-java-client.sh
 ```
 
-4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer/tree/main)
+4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer)
 
 Start up the OTel Desktop Viewer container in a new terminal window:
 
@@ -72,12 +72,34 @@ docker compose attach otel-tui
 
 Unlike the OTel Desktop Viewer, `otel-tui` supports traces:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-traces.png)
+![otel-tui Traces Screenshot](./images/otel-tui-traces.png)
 
 logs:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-logs.png)
+![otel-tui Logs Screenshot](./images/otel-tui-logs.png)
 
 and metrics:
 
-![OTel Desktop Viewer Screenshot](./images/otel-tui-metrics.png)
+![otel-tui Metrics Screenshot](./images/otel-tui-metrics.png)
+
+6- Run [OTel Front](https://github.com/mesaglio/otel-front)
+
+Start up the `otel-front` container in a new terminal window, in daemon mode:
+
+```bash
+docker compose up otel-front
+```
+
+The app will be available at `http://localhost:8001`. If you're running this in a dev container, you may need to manually forward port `8001` inside the container, if it's not automatically done for you.
+
+Just like with `otel-tui`, OTel Front also supports traces:
+
+![OTel Front Traces Screenshot](./images/otel-front-traces.png)
+
+logs:
+
+![OTel Front Logs Screenshot](./images/otel-front-logs.png)
+
+and metrics:
+
+![OTel Front Metrics Screenshot](./images/otel-front-metrics.png)
