@@ -38,7 +38,7 @@ public class RollController {
       .build();
 
   @GetMapping("/rolldice")
-  public String index(@RequestParam("player") Optional<String> player) throws EvenRollException {
+  public String index(@RequestParam("player") Optional<String> player) {
     Span span = tracer.spanBuilder("dice.roll")
         .setAttribute("player.name", player.orElse("anonymous"))
         .setAttribute("player.provided", player.isPresent())
@@ -50,12 +50,7 @@ public class RollController {
       logger.info("Stepping rollCounter");
 
       int result = this.getRandomNumber(1, 6);
-      
-      // Check if result is even and raise exception
-      if (result % 2 == 0) {
-        throw new EvenRollException("Dice result is even: " + result);
-      }
-      
+
       // Record the result in span and metrics
       span.setAttribute("dice.result", result);
       diceResultHistogram.record(result);
@@ -65,26 +60,32 @@ public class RollController {
               .build());
       
       if (player.isPresent()) {
-        logger.info("{} is rolling the dice: {}", player.get(), result);
+        logger.info("[{}] is rolling the dice: {}", player.get(), result);
         span.addEvent("player_logged", 
             Attributes.builder()
                 .put("player", player.get())
                 .put("result", result)
                 .build());
       } else {
-        logger.info("Anonymous player is rolling the dice: {}", result);
+        logger.info("[Anonymous player] is rolling the dice: {}", result);
         span.addEvent("anonymous_roll_logged",
             Attributes.builder()
                 .put("result", result)
                 .build());
       }
+
+      // Check if result is even and raise exception
+      if (result % 2 == 0) {
+        throw new EvenRollException("Dice result is even: " + result);
+      }
+
       
       return Integer.toString(result);
     } catch (EvenRollException e) {
       logger.error("Even dice result error", e);
       span.recordException(e);
       span.setStatus(StatusCode.ERROR, e.getMessage());
-      throw e;
+      return "Error: " + e.getMessage();
     } finally {
       span.end();
     }

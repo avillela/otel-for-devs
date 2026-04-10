@@ -5,6 +5,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.opentelemetry.api.GlobalOpenTelemetry;
@@ -22,6 +23,17 @@ public class RolldiceClient {
   private static final String URL = "http://localhost:8080/rolldice";
   private static final int SLEEP_INTERVAL_MS = 5000; // 5 seconds
   
+  private static final String[] PLAYERS = {
+      null,
+      "Jean-Luc Picard",
+      "Kathryn Janeway",
+      "Michael Burnham",
+      "Benjamin Sisko",
+      "Beverly Crusher",
+      "Mr. Data",
+      "Jadzia Dax"
+  };
+  
   private final Tracer tracer = GlobalOpenTelemetry.getTracer("otel.rolldice.client");
 
   public static void main(String[] args) {
@@ -38,21 +50,49 @@ public class RolldiceClient {
   }
 
   /**
+   * Randomly select a player from the PLAYERS array.
+   * @return the selected player name or null for anonymous
+   */
+  private String getRandomPlayer() {
+    return PLAYERS[ThreadLocalRandom.current().nextInt(PLAYERS.length)];
+  }
+
+  /**
+   * Build the request URL and span attributes based on the player name.
+   * @param playerName the player name or null for anonymous
+   * @return the full request URL
+   */
+  private String buildRequestUrl(String playerName) {
+    if (playerName != null) {
+      return URL + "?player=" + playerName.replace(" ", "%20");
+    }
+    return URL;
+  }
+
+  /**
    * Run the client in an infinite loop, calling the endpoint every 5 seconds.
    */
   public void run() {
     HttpClient httpClient = HttpClient.newHttpClient();
 
     while (true) {
+      String playerName = getRandomPlayer();
+      String requestUrl = buildRequestUrl(playerName);
+      
       Span clientSpan = tracer.spanBuilder("rolldice.client.request")
-          .setAttribute("http.url", URL)
+          .setAttribute("http.url", requestUrl)
           .setAttribute("http.method", "GET")
           .startSpan();
       
+      if (playerName == null) {
+        playerName = "anonymous";
+      }
+      clientSpan.setAttribute("player.name", playerName);
+
       try (Scope scope = clientSpan.makeCurrent()) {
         String timestamp = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        logger.info("{}: Calling rolldice", timestamp);
+        logger.info("{}: Calling rolldice with player [{}]", timestamp, playerName);
         clientSpan.addEvent("request_prepared",
             Attributes.builder()
                 .put("timestamp", timestamp)
@@ -60,7 +100,7 @@ public class RolldiceClient {
 
         // Make the request
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(java.net.URI.create(URL))
+            .uri(java.net.URI.create(requestUrl))
             .GET()
             .build();
 
