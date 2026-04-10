@@ -13,6 +13,7 @@ import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.LongHistogram;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
@@ -37,7 +38,7 @@ public class RollController {
       .build();
 
   @GetMapping("/rolldice")
-  public String index(@RequestParam("player") Optional<String> player) {
+  public String index(@RequestParam("player") Optional<String> player) throws EvenRollException {
     Span span = tracer.spanBuilder("dice.roll")
         .setAttribute("player.name", player.orElse("anonymous"))
         .setAttribute("player.provided", player.isPresent())
@@ -49,6 +50,11 @@ public class RollController {
       logger.info("Stepping rollCounter");
 
       int result = this.getRandomNumber(1, 6);
+      
+      // Check if result is even and raise exception
+      if (result % 2 == 0) {
+        throw new EvenRollException("Dice result is even: " + result);
+      }
       
       // Record the result in span and metrics
       span.setAttribute("dice.result", result);
@@ -74,6 +80,11 @@ public class RollController {
       }
       
       return Integer.toString(result);
+    } catch (EvenRollException e) {
+      logger.error("Even dice result error", e);
+      span.recordException(e);
+      span.setStatus(StatusCode.ERROR, e.getMessage());
+      throw e;
     } finally {
       span.end();
     }
