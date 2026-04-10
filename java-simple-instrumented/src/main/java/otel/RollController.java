@@ -13,6 +13,7 @@ import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.LongHistogram;
 import io.opentelemetry.api.metrics.Meter;
 import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
@@ -49,8 +50,13 @@ public class RollController {
       logger.info("Stepping rollCounter");
 
       int result = this.getRandomNumber(1, 6);
-      
-      // Record the result in span and metrics
+
+      // Check if result is even and raise exception before recording metrics
+      if (result % 2 == 0) {
+        throw new EvenRollException("Dice result is even: " + result);
+      }
+
+      // Record the result in span and metrics (only for valid odd rolls)
       span.setAttribute("dice.result", result);
       diceResultHistogram.record(result);
       span.addEvent("dice_rolled", 
@@ -58,22 +64,34 @@ public class RollController {
               .put("result", result)
               .build());
       
+      // Log player info with consolidated event
+      var playerAttributes = Attributes.builder().put("result", result);
       if (player.isPresent()) {
-        logger.info("{} is rolling the dice: {}", player.get(), result);
-        span.addEvent("player_logged", 
-            Attributes.builder()
-                .put("player", player.get())
-                .put("result", result)
-                .build());
+        logger.info("[{}] is rolling the dice: {}", player.get(), result);
+        playerAttributes.put("player", player.get());
       } else {
-        logger.info("Anonymous player is rolling the dice: {}", result);
-        span.addEvent("anonymous_roll_logged",
-            Attributes.builder()
-                .put("result", result)
-                .build());
+        logger.info("[Anonymous player] is rolling the dice: {}", result);
+        playerAttributes.put("player", "anonymous");
       }
+      span.addEvent("roll_completed", playerAttributes.build());
       
       return Integer.toString(result);
+    } catch (EvenRollException e) {
+      Span evenRollSpan = tracer.spanBuilder("even.roll")
+          .setAttribute("error.type", e.getClass().getSimpleName())
+          .setAttribute("error.message", e.getMessage())
+          .startSpan();
+      
+      try (Scope scope = evenRollSpan.makeCurrent()) {
+        logger.error("Even dice result error", e);
+        evenRollSpan.recordException(e);
+        evenRollSpan.setStatus(StatusCode.ERROR, e.getMessage());
+        evenRollSpan.addEvent("even_roll_detected");
+        span.setStatus(StatusCode.ERROR, e.getMessage());
+      } finally {
+        evenRollSpan.end();
+      }
+      return "Error: " + e.getMessage();
     } finally {
       span.end();
     }
