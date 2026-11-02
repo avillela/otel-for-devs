@@ -58,11 +58,23 @@ docker compose up otel-desktop-viewer
 
 The app will be available at `http://localhost:8000`. If you're running this in a dev container, you may need to manually forward port `8000` inside the container, if it's not automatically done for you.
 
-![OTel Desktop Viewer Screenshot](./images/otel-desktop-viewer.png)
+OTel Desktop Viewer has a main dashboard showing application topology and a summary of traces, logs, and metrics.
 
-> **NOTES:** 
-> 1- The OTel Desktop Viewer only works for rendering OTel traces.
-> 2- If you configure logs and metrics, not only will you get a stack trace, the app will also fail to start up properly
+![OTel Desktop Viewer main dashboard Screenshot](./images/otel-desktop-viewer.png)
+
+It also has separate pages for traces:
+
+![OTel Desktop Viewer Screenshot](./images/otel-desktop-viewer-traces.png)
+
+
+logs:
+
+![OTel Desktop Viewer Screenshot](./images/otel-desktop-viewer-logs.png)
+
+metrics:
+
+![OTel Desktop Viewer Metrics Screenshot](./images/otel-desktop-viewer-metrics.png)
+
 
 5- Run [otel-tui](https://github.com/ymtdzzz/otel-tui)
 
@@ -78,7 +90,7 @@ Start up the UI:
 docker compose attach otel-tui
 ```
 
-Unlike the OTel Desktop Viewer, `otel-tui` supports traces:
+`otel-tui` supports traces:
 
 ![otel-tui Traces Screenshot](./images/otel-tui-traces.png)
 
@@ -105,7 +117,7 @@ docker compose up otel-front
 
 The app will be available at `http://localhost:8001`. If you're running this in a dev container, you may need to manually forward port `8001` inside the container, if it's not automatically done for you.
 
-Just like with `otel-tui`, OTel Front also supports traces:
+OTel Front supports traces:
 
 ![OTel Front Traces Screenshot](./images/otel-front-traces.png)
 
