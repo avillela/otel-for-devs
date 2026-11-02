@@ -21,7 +21,7 @@ services:
       - otel-network
 
   otel-tui:
-    image: ymtdzzz/otel-tui:latest
+    image: ymtdzzz/otel-tui:v0.7.5
     container_name: otel-tui
     stdin_open: true
     tty: true
@@ -33,7 +33,7 @@ services:
       - otel-network
 
   otel-front:
-    image: ghcr.io/mesaglio/otel-front:latest
+    image: ghcr.io/mesaglio/otel-front:0.0.5
     container_name: otel-front
     ports:
       - "8001:8000"
