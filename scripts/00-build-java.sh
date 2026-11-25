@@ -21,7 +21,7 @@ if [ -z "$JAVA_FOLDER" ]; then
   exit 1
 fi
 
-cd "$JAVA_FOLDER"
+cd "java/$JAVA_FOLDER"
 
 # Build script for java-simple project
 # Sets up Gradle 8.5 wrapper and assembles the project

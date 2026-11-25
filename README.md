@@ -10,7 +10,7 @@ Additional reference at [opentelemetry.io getting started guide for Java](https:
 
 0- Edit `.env` file
 
-If you'd like to run the auto-instrumented version of this code, set `JAVA_FOLDER=java-simple`.
+If you'd like to run the auto-instrumented version of this code, set `JAVA_FOLDER=java/java-simple`.
 
 If you want to run the auto-instrumented and manually instrumented version of this code, set `JAVA_FOLDER=java-simple-instrumented`.
 

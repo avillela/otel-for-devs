@@ -8,11 +8,13 @@
         "version": "17",
         "installGradle": "true"
       },
+      "ghcr.io/postfinance/devcontainer-features/dotnet:1": {}
     },
     "overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/docker-in-docker",
         "ghcr.io/devcontainers/features/java",
         "ghcr.io/stu-bell/devcontainer-features/claude-code",
+        "ghcr.io/postfinance/devcontainer-features/dotnet"
     ],
     "hostRequirements": {
       "cpus": 4,

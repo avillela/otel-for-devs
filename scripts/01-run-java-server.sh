@@ -30,4 +30,4 @@ export JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" \
   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
   OTEL_METRIC_EXPORT_INTERVAL=15000
 
-java -jar "./$JAVA_FOLDER/build/libs/${JAVA_FOLDER}.jar"
+java -jar "./java/$JAVA_FOLDER/build/libs/${JAVA_FOLDER}.jar"

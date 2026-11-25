@@ -10,6 +10,11 @@
       "resolved": "ghcr.io/devcontainers/features/java@sha256:61a839211feda1e2a1f10646648a948e733e4d98d770f3a4b6698a3c5fc92abe",
       "integrity": "sha256:61a839211feda1e2a1f10646648a948e733e4d98d770f3a4b6698a3c5fc92abe"
     },
+    "ghcr.io/postfinance/devcontainer-features/dotnet:1": {
+      "version": "1.0.1",
+      "resolved": "ghcr.io/postfinance/devcontainer-features/dotnet@sha256:2ce9d706a751c4eba6407a890360b4bb490919e0f5b1c4673a125fbade2c8239",
+      "integrity": "sha256:2ce9d706a751c4eba6407a890360b4bb490919e0f5b1c4673a125fbade2c8239"
+    },
     "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {
       "version": "0.1.0",
       "resolved": "ghcr.io/stu-bell/devcontainer-features/claude-code@sha256:f87b4da3f8648db9111cb25c6bd3817d096018d81f3fb596340f7ffdba14409a",

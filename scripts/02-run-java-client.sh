@@ -42,4 +42,4 @@ echo ""
 #   ./gradlew clientJar
 # fi
 
-java -jar "./$JAVA_FOLDER/build/libs/${JAVA_FOLDER}-client.jar"
+java -jar "./java/$JAVA_FOLDER/build/libs/${JAVA_FOLDER}-client.jar"
