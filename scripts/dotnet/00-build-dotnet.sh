@@ -27,6 +27,16 @@ cd "dotnet/$DOTNET_FOLDER"
 
 set -e
 
+echo "Add Nuget packages"
+# dotnet add package OpenTelemetry.Extensions.Hosting
+# dotnet add package OpenTelemetry.Instrumentation.AspNetCore
+# dotnet add package OpenTelemetry.Exporter.Console
+dotnet add package OpenTelemetry.Extensions.Hosting
+dotnet add package OpenTelemetry.Exporter.OpenTelemetryProtocol
+dotnet add package OpenTelemetry.Instrumentation.AspNetCore
+dotnet add package OpenTelemetry.Instrumentation.Http
+
+
 echo "Building .net project..."
 dotnet build
 echo "Build complete!"
