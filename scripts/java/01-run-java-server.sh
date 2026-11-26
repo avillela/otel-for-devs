@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### -----------------------
-### Start the Rolldice Client
+### Start the app
 ### -----------------------
 
 # Load environment variables from .env file (default to .env if not provided)
@@ -30,16 +30,4 @@ export JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" \
   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
   OTEL_METRIC_EXPORT_INTERVAL=15000
 
-echo "Starting Rolldice Client..."
-echo "Calling endpoint: https://localhost:8080/rolldice"
-echo ""
-
-# cd $JAVA_FOLDER
-
-# # Build the client jar if not already built
-# if [ ! -f "build/libs/${JAVA_FOLDER}-client.jar" ]; then
-#   echo "Building client jar..."
-#   ./gradlew clientJar
-# fi
-
-java -jar "./$JAVA_FOLDER/build/libs/${JAVA_FOLDER}-client.jar"
+java -jar "./java/$JAVA_FOLDER/build/libs/${JAVA_FOLDER}.jar"
