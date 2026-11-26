@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using OpenTelemetry;
 using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -43,9 +44,21 @@ public class RollDiceClient
 
     public static async Task<int> Main(string[] args)
     {
+        // The client is a plain console app with no generic host or DI container, so we build
+        // the providers directly with the standalone SDK builders instead of using
+        // services.AddOpenTelemetry() (OpenTelemetry.Extensions.Hosting) like the server does.
+        // Disposing the providers (via `using`) flushes pending telemetry on exit.
         using var tracerProvider = Sdk.CreateTracerProviderBuilder()
             .ConfigureResource(resource => resource.AddService(ServiceName))
             .AddSource(ActivitySource.Name)
+            .AddHttpClientInstrumentation()
+            .AddConsoleExporter()
+            .AddOtlpExporter()
+            .Build();
+
+        // Emits http.client.* metrics (e.g. http.client.request.duration) for outgoing calls.
+        using var meterProvider = Sdk.CreateMeterProviderBuilder()
+            .ConfigureResource(resource => resource.AddService(ServiceName))
             .AddHttpClientInstrumentation()
             .AddConsoleExporter()
             .AddOtlpExporter()

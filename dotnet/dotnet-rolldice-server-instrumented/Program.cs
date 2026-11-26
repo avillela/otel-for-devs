@@ -17,16 +17,6 @@ var activitySource = new ActivitySource(serviceName);
 var meter = new Meter(serviceName);
 var rollCounter = meter.CreateCounter<long>("dice.rolls", description: "Number of dice rolls");
 
-builder.Logging.AddOpenTelemetry(options =>
-{
-    options.IncludeFormattedMessage = true;
-    options
-        .SetResourceBuilder(
-            ResourceBuilder.CreateDefault()
-                .AddService(serviceName))
-        .AddConsoleExporter()
-        .AddOtlpExporter();
-});
 builder.Services.AddOpenTelemetry()
       .ConfigureResource(resource => resource.AddService(serviceName))
       .WithTracing(tracing => tracing
@@ -38,7 +28,13 @@ builder.Services.AddOpenTelemetry()
           .AddMeter(serviceName)
           .AddAspNetCoreInstrumentation()
           .AddConsoleExporter()
-          .AddOtlpExporter());
+          .AddOtlpExporter())
+      .WithLogging(logging => logging.AddOtlpExporter(),
+        options =>
+        {
+            options.IncludeScopes = true;
+            options.IncludeFormattedMessage = true;
+        });
 
 var app = builder.Build();
 

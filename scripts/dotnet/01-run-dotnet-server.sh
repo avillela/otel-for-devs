@@ -25,12 +25,8 @@ fi
 
 cd dotnet/$DOTNET_FOLDER
 
-# export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
-#   OTEL_TRACES_EXPORTER=console,otlp \
-#   OTEL_METRICS_EXPORTER=console,otlp \
-#   OTEL_LOGS_EXPORTER=console,otlp \
-#   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
-#   OTEL_METRIC_EXPORT_INTERVAL=15000
+# Export metrics every 15s instead of the 60s default, so they show up quickly in the demo
+export OTEL_METRIC_EXPORT_INTERVAL=15000
 
 dotnet run
 

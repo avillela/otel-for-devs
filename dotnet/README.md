@@ -46,6 +46,9 @@ Call the `/rolldice` endpont in a new terminal window. The client is its own pro
 ./scripts/dotnet/02-run-dotnet-client.sh
 ```
 
+> **Why do the server and client set up OpenTelemetry differently?**
+> The server is an ASP.NET Core web app, which already has a host and dependency injection, so it uses `builder.Services.AddOpenTelemetry()` from the `OpenTelemetry.Extensions.Hosting` package. The client is a plain console app with no host, so it builds its providers directly with `Sdk.CreateTracerProviderBuilder()`, `Sdk.CreateMeterProviderBuilder()` and `LoggerFactory.Create(...)`, and disposes them on exit to flush telemetry. Both patterns are common: use the hosting package for web apps and workers that run in a host, and the standalone SDK builders for scripts and CLIs.
+
 4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer)
 
 Start up the OTel Desktop Viewer container in a new terminal window:
