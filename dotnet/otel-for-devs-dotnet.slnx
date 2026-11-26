@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="dotnet-rolldice-server/dotnet-rolldice-server.csproj" />
+  <Project Path="dotnet-rolldice-client/dotnet-rolldice-client.csproj" />
+  <Project Path="dotnet-rolldice-server-instrumented/dotnet-rolldice-server-instrumented.csproj" />
+</Solution>

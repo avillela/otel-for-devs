@@ -33,7 +33,7 @@ export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
   OTEL_METRIC_EXPORT_INTERVAL=15000
 
 
-# export OTEL_SERVICE_NAME=dotnet-simple-instrumented
+# export OTEL_SERVICE_NAME=dotnet-rolldice-server-instrumented
 # export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 # export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 
