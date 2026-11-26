@@ -34,15 +34,12 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      # exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer]
+      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
 
     metrics:
       receivers: [otlp, spanmetrics]
-      # exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug, otlphttp/otel-desktop-viewer]
+      exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
 
     logs:
       receivers: [otlp]
-      # exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug, otlphttp/otel-desktop-viewer]
+      exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]

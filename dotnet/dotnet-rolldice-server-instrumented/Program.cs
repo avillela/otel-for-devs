@@ -41,21 +41,43 @@ var app = builder.Build();
 string HandleRollDice([FromServices]ILogger<Program> logger, string? player)
 {
     using var activity = activitySource.StartActivity("RollDice");
-    var result = RollDice();
-    activity?.SetTag("dice.value", result);
-    activity?.SetTag("dice.player", string.IsNullOrEmpty(player) ? "anonymous" : player);
-    rollCounter.Add(1, new KeyValuePair<string, object?>("dice.value", result));
-
-    if (string.IsNullOrEmpty(player))
+    try
     {
-        logger.LogInformation("Anonymous player is rolling the dice: {result}", result);
-    }
-    else
-    {
-        logger.LogInformation("{player} is rolling the dice: {result}", player, result);
-    }
+        var result = RollDice();
+        activity?.SetTag("dice.value", result);
+        activity?.SetTag("dice.player", string.IsNullOrEmpty(player) ? "anonymous" : player);
+        rollCounter.Add(1, new KeyValuePair<string, object?>("dice.value", result));
 
-    return result.ToString(CultureInfo.InvariantCulture);
+        if (string.IsNullOrEmpty(player))
+        {
+            logger.LogInformation("Anonymous player is rolling the dice: {result}", result);
+        }
+        else
+        {
+            logger.LogInformation("{player} is rolling the dice: {result}", player, result);
+        }
+
+        if (result % 2 == 0)
+        {
+            throw new EvenRollException($"Dice result is even: {result}");
+        }
+
+        return result.ToString(CultureInfo.InvariantCulture);
+    }
+    catch (EvenRollException e)
+    {
+        using var evenRollActivity = activitySource.StartActivity("even.roll");
+        evenRollActivity?.SetTag("error.type", e.GetType().Name);
+        evenRollActivity?.SetTag("error.message", e.Message);
+        evenRollActivity?.AddException(e);
+        evenRollActivity?.AddEvent(new ActivityEvent("even_roll_detected"));
+        evenRollActivity?.SetStatus(ActivityStatusCode.Error, e.Message);
+        activity?.SetStatus(ActivityStatusCode.Error, e.Message);
+
+        logger.LogError(e, "Even dice result error");
+
+        return $"Error: {e.Message}";
+    }
 }
 
 int RollDice()
@@ -66,3 +88,10 @@ int RollDice()
 app.MapGet("/rolldice/{player?}", HandleRollDice);
 
 app.Run();
+
+public class EvenRollException : Exception
+{
+    public EvenRollException(string message) : base(message)
+    {
+    }
+}

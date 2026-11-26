@@ -1,6 +1,6 @@
 # Simple OTel Instrumentation .NET Example for Developers
 
-This is a companion repository the NDC London Talk, "The Lazy Developer’s Guide to Observing Your Own Code"
+This is a companion repository the NDC London 2027 talk, "The Lazy Developer’s Guide to Observing Your Own Code"
 
 Additional reference at [opentelemetry.io getting started guide for .NET](https://opentelemetry.io/docs/languages/dotnet/getting-started/)
 
@@ -10,7 +10,7 @@ Additional reference at [opentelemetry.io getting started guide for .NET](https:
 
 If you'd like to run the auto-instrumented version of this code, set `DOTNET_FOLDER=dotnet-rolldice-server`.
 
-If you want to run the auto-instrumented and manually instrumented version of this code, set `DOTNET_FOLDER=dotnet-rolldice-server-instrumented`.
+If you'd like to run the auto-instrumented and manually instrumented version of this code, set `DOTNET_FOLDER=dotnet-rolldice-server-instrumented`.
 
 If you are running this example on an AMD64 machine, set `OTEL_DESKTOP_VIEWER_VERSION=latest-amd64`. Otherwise, leave as-is.
 
@@ -61,20 +61,20 @@ The app will be available at `http://localhost:8000`. If you're running this in 
 
 OTel Desktop Viewer has a main dashboard showing application topology and a summary of traces, logs, and metrics.
 
-![OTel Desktop Viewer main dashboard Screenshot](./images/otel-desktop-viewer.png)
+![OTel Desktop Viewer main dashboard Screenshot](../images/otel-desktop-viewer.png)
 
 It also has separate pages for traces:
 
-![OTel Desktop Viewer Screenshot](./images/otel-desktop-viewer-traces.png)
+![OTel Desktop Viewer Screenshot](../images/otel-desktop-viewer-traces.png)
 
 
 logs:
 
-![OTel Desktop Viewer Screenshot](./images/otel-desktop-viewer-logs.png)
+![OTel Desktop Viewer Screenshot](../images/otel-desktop-viewer-logs.png)
 
 metrics:
 
-![OTel Desktop Viewer Metrics Screenshot](./images/otel-desktop-viewer-metrics.png)
+![OTel Desktop Viewer Metrics Screenshot](../images/otel-desktop-viewer-metrics.png)
 
 
 5- Run [otel-tui](https://github.com/ymtdzzz/otel-tui)
@@ -93,19 +93,19 @@ docker compose attach otel-tui
 
 `otel-tui` supports traces:
 
-![otel-tui Traces Screenshot](./images/otel-tui-traces.png)
+![otel-tui Traces Screenshot](../images/otel-tui-traces.png)
 
 logs:
 
-![otel-tui Logs Screenshot](./images/otel-tui-logs.png)
+![otel-tui Logs Screenshot](../images/otel-tui-logs.png)
 
 metrics:
 
-![otel-tui Metrics Screenshot](./images/otel-tui-metrics.png)
+![otel-tui Metrics Screenshot](../images/otel-tui-metrics.png)
 
 and application topology:
 
-![otel-tui Topology Screenshot](./images/otel-tui-topology.png)
+![otel-tui Topology Screenshot](../images/otel-tui-topology.png)
 
 
 6- Run [OTel Front](https://github.com/mesaglio/otel-front)
@@ -120,17 +120,17 @@ The app will be available at `http://localhost:8001`. If you're running this in 
 
 OTel Front supports traces:
 
-![OTel Front Traces Screenshot](./images/otel-front-traces.png)
+![OTel Front Traces Screenshot](../images/otel-front-traces.png)
 
 logs:
 
-![OTel Front Logs Screenshot](./images/otel-front-logs.png)
+![OTel Front Logs Screenshot](../images/otel-front-logs.png)
 
 and metrics:
 
-![OTel Front Metrics Screenshot](./images/otel-front-metrics.png)
+![OTel Front Metrics Screenshot](../images/otel-front-metrics.png)
 
 It also has a nice little overview dashboard:
 
-![OTel Front Dashboard Screenshot](./images/otel-front-dashboard.png)
+![OTel Front Dashboard Screenshot](../images/otel-front-dashboard.png)
 
