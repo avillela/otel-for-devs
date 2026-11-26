@@ -21,9 +21,9 @@ if [ -z "$DOTNET_FOLDER" ]; then
   exit 1
 fi
 
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
-  OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
-  OTEL_METRIC_EXPORT_INTERVAL=15000
+# export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
+#   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
+#   OTEL_METRIC_EXPORT_INTERVAL=15000
 
 echo "Starting Rolldice Client..."
 echo "Calling endpoint: http://localhost:8080/rolldice"

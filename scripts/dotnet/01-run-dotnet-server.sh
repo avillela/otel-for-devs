@@ -25,25 +25,12 @@ fi
 
 cd dotnet/$DOTNET_FOLDER
 
-export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
-  OTEL_TRACES_EXPORTER=console,otlp \
-  OTEL_METRICS_EXPORTER=console,otlp \
-  OTEL_LOGS_EXPORTER=console,otlp \
-  OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
-  OTEL_METRIC_EXPORT_INTERVAL=15000
-
-
-# export OTEL_SERVICE_NAME=dotnet-rolldice-server-instrumented
-# export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
-# export OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-
-dotnet run
-
-# export JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar" \
+# export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 \
 #   OTEL_TRACES_EXPORTER=console,otlp \
 #   OTEL_METRICS_EXPORTER=console,otlp \
 #   OTEL_LOGS_EXPORTER=console,otlp \
 #   OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf \
 #   OTEL_METRIC_EXPORT_INTERVAL=15000
 
-# java -jar "./java/$DOTNET_FOLDER/build/libs/${DOTNET_FOLDER}.jar"
+dotnet run
+

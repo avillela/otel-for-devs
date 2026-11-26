@@ -19,6 +19,7 @@ var rollCounter = meter.CreateCounter<long>("dice.rolls", description: "Number o
 
 builder.Logging.AddOpenTelemetry(options =>
 {
+    options.IncludeFormattedMessage = true;
     options
         .SetResourceBuilder(
             ResourceBuilder.CreateDefault()

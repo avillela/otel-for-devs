@@ -35,14 +35,14 @@ service:
     traces:
       receivers: [otlp]
       # exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug, spanmetrics]
+      exporters: [debug, spanmetrics, otlphttp/otel-desktop-viewer]
 
     metrics:
       receivers: [otlp, spanmetrics]
       # exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug]
+      exporters: [debug, otlphttp/otel-desktop-viewer]
 
     logs:
       receivers: [otlp]
       # exporters: [debug, otlphttp/otel-desktop-viewer, otlphttp/otel-tui, otlp/otel-front]
-      exporters: [debug]
+      exporters: [debug, otlphttp/otel-desktop-viewer]

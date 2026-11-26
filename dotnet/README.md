@@ -8,9 +8,9 @@ Additional reference at [opentelemetry.io getting started guide for .NET](https:
 
 0- Edit `.env` file
 
-If you'd like to run the auto-instrumented version of this code, set `DOTNET_FOLDER=dotnet-simple`.
+If you'd like to run the auto-instrumented version of this code, set `DOTNET_FOLDER=dotnet-rolldice-server`.
 
-If you want to run the auto-instrumented and manually instrumented version of this code, set `DOTNET_FOLDER=dotnet-simple-instrumented`.
+If you want to run the auto-instrumented and manually instrumented version of this code, set `DOTNET_FOLDER=dotnet-rolldice-server-instrumented`.
 
 If you are running this example on an AMD64 machine, set `OTEL_DESKTOP_VIEWER_VERSION=latest-amd64`. Otherwise, leave as-is.
 
@@ -21,7 +21,7 @@ Do this the first time you run the project, or after any code changes.
 Open up a new terminal window and run:
 
 ```bash
-./scripts/dotnet/00-build-dotnet.sh .env
+./scripts/dotnet/00-build-dotnet.sh
 ```
 
 2- Run the OTel Collector
@@ -40,10 +40,10 @@ Start up the .NET server in a new terminal window:
 ./scripts/dotnet/01-run-dotnet-server.sh .env
 ```
 
-Call the `/rolldice` endpont in a new terminal window:
+Call the `/rolldice` endpont in a new terminal window. The client is its own project (`dotnet/dotnet-rolldice-client`) and works with either server folder:
 
 ```bash
-./scripts/dotnet/02-run-dotnet-client.sh .env
+./scripts/dotnet/02-run-dotnet-client.sh
 ```
 
 4- Run the [OTel Desktop Viewer](https://github.com/CtrlSpice/otel-desktop-viewer)
